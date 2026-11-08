@@ -3,12 +3,7 @@ import {useQuery} from '@tanstack/react-query'
 import {useState} from 'react'
 
 import axios from 'axios'
-
-interface Post {
-    id: number
-    title: string
-    body: string
-}
+import type { Post } from '../types'
 
 async function fetchPosts(url: string) {
     const response = await axios.get(url)

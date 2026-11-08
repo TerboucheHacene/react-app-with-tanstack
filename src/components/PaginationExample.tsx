@@ -1,12 +1,8 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import {useState} from 'react'
 import axios from 'axios'
+import type { Post } from '../types'
 
-interface Post {
-    id: number
-    title: string
-    body: string
-}
 async function fetchPosts(page: number) {
     const response = await axios.get(`https://jsonplaceholder.typicode.com/posts?_limit=5&_page=${page}`)
     return response.data
@@ -26,17 +22,24 @@ function PaginationExample() {
     return (
         <section className="panel">
             <h2>Pagination Example</h2>
-            {isFetching && <div>Fetching...</div>}
-            {isError && <div>Error: something went wrong</div>}
-            {isPlaceholderData && <div>Showing previous page data while fetching the next page</div>}
-            {posts && posts.map((post: Post) => (
-                <div key={post.id}>
-                    <h2>{post.title}</h2>
-                    <p>{post.body}</p>
-                </div>
-            ))}
-            <button type="button" onClick={() => setPage(page - 1)} disabled={page === 1}>Previous Page</button>
-            <button type="button" onClick={() => setPage(page + 1)}>Next Page</button>
+            {isFetching && <p className="status">Fetching...</p>}
+            {isError && <p className="status error">Error: something went wrong</p>}
+            {isPlaceholderData && <p className="status">Showing previous page data while fetching the next page</p>}
+            {posts && (
+                <ul className="posts">
+                    {posts.map((post: Post) => (
+                        <li className="post" key={post.id}>
+                            <h3>{post.title}</h3>
+                            <p>{post.body}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <div className="actions panel-footer">
+                <button type="button" className="secondary" onClick={() => setPage(page - 1)} disabled={page === 1}>Previous Page</button>
+                <span className="page-indicator">Page {page}</span>
+                <button type="button" className="secondary" onClick={() => setPage(page + 1)}>Next Page</button>
+            </div>
         </section>
     )
 }

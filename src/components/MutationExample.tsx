@@ -3,13 +3,7 @@ import {useMutation} from '@tanstack/react-query'
 import {useState} from 'react'
 
 import axios from 'axios'
-
-interface Post {
-    id: number
-    title: string
-    body: string
-    userId: number
-}
+import type { Post } from '../types'
 
 async function addPost(post: Post) {
     const response = await axios.post(
@@ -65,9 +59,9 @@ function MutationExample() {
                 </div>
                 <button type="button" onClick={clickHandler}>Add Post</button>
             </form>
-            {addedPost && <div>Post added: {addedPost.title}</div>}
-            {isPending && <div>Adding post...</div>}
-            {isError && <div>Error: something went wrong</div>}
+            {addedPost && <p className="status success">Post added: {addedPost.title}</p>}
+            {isPending && <p className="status">Adding post...</p>}
+            {isError && <p className="status error">Error: something went wrong</p>}
         </section>
     );
 }

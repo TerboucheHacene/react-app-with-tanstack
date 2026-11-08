@@ -1,11 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import type { Post } from '../types'
 
-interface Post {
-    id: number
-    title: string
-    body: string
-}
 async function fetchInfinitePosts(page: number) {
     const response = await axios.get<Post[]>(`https://jsonplaceholder.typicode.com/posts?_limit=5&_page=${page}`)
     return response.data
@@ -31,21 +27,23 @@ function InfiniteExample() {
     return (
         <section className="panel">
             <h2>Infinite Example</h2>
-            {isLoading && <div>Loading...</div>}
-            {isFetching && <div>Fetching...</div>}
-            {isFetchingNextPage && <div>Fetching Next Page...</div>}
-            {data?.pages.map((page, index) => (
-                <div key={index}>
-                    {page.map((post: Post) => (
-                        <div key={post.id}>
-                            <h2>{post.title}</h2>
+            {isLoading && <p className="status">Loading...</p>}
+            {isFetching && <p className="status">Fetching...</p>}
+            {isFetchingNextPage && <p className="status">Fetching Next Page...</p>}
+            {data && (
+                <ul className="posts">
+                    {data.pages.flat().map((post: Post) => (
+                        <li className="post" key={post.id}>
+                            <h3>{post.title}</h3>
                             <p>{post.body}</p>
-                        </div>
+                        </li>
                     ))}
-                </div>
-            ))}
-            {hasNextPage && <button type="button" onClick={() => fetchNextPage()}>Load More</button>}
-            {!hasNextPage && <div>No more posts</div>}
+                </ul>
+            )}
+            <div className="panel-footer">
+                {hasNextPage && <button type="button" onClick={() => fetchNextPage()}>Load More</button>}
+                {data && !hasNextPage && <p className="status">No more posts</p>}
+            </div>
         </section>
     )
 }

@@ -1,75 +1,63 @@
-# React + TypeScript + Vite
+# React App with TanStack Query
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small playground for learning [TanStack Query](https://tanstack.com/query/latest) (React Query v5) with React 19, TypeScript, and Vite. Each component in `src/components` demonstrates one core feature, using the free [JSONPlaceholder](https://jsonplaceholder.typicode.com) API as a backend.
 
-Currently, two official plugins are available:
+## Examples
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Component | Feature | Key APIs |
+| --- | --- | --- |
+| `QueryExample` | Fetching data on demand | `useQuery`, `enabled`, `refetch` |
+| `MutationExample` | Creating a post from a form | `useMutation`, `mutate`, `isPending` |
+| `CachingExample` | Cache reuse and invalidation | `staleTime`, `useQueryClient`, `invalidateQueries` |
+| `PaginationExample` | Page-by-page navigation | `queryKey: ['posts', page]`, `placeholderData: keepPreviousData` |
+| `InfiniteExample` | "Load more" infinite list | `useInfiniteQuery`, `getNextPageParam`, `fetchNextPage` |
 
-## React Compiler
+A few things worth trying in the browser:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Query:** Nothing is fetched until you click **Load Data**, because the query is disabled until then.
+- **Caching:** Toggle the post list off and on again. The posts appear instantly from the cache (they stay fresh for 5 minutes) until you click **Invalidate Posts**. `QueryExample` and `CachingExample` share the `['posts']` query key, so they read from the same cache entry.
+- **Pagination:** The previous page stays on screen while the next one loads, instead of flashing a loading state.
+- **Mutation:** JSONPlaceholder fakes writes, so the new post is returned in the response but isn't actually saved.
 
-## Expanding the ESLint configuration
+## Tech stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19 and TypeScript
+- Vite
+- `@tanstack/react-query` v5, with `@tanstack/react-query-devtools` installed
+- Axios for HTTP requests
+- ESLint
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+You need Node.js and npm.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Then open the URL Vite prints (usually http://localhost:5173).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server with hot reload |
+| `npm run build` | Type-check and build for production into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
 
+## Project structure
+
+```
+src/
+├── main.tsx          # Creates the QueryClient and wraps the app in QueryClientProvider
+├── App.tsx           # Renders all the examples on one page
+├── types.ts          # Shared types, such as the Post interface
+└── components/
+    ├── QueryExample.tsx
+    ├── MutationExample.tsx
+    ├── CachingExample.tsx
+    ├── PaginationExample.tsx
+    └── InfiniteExample.tsx
 ```

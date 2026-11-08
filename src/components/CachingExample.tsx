@@ -1,12 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import axios from 'axios'
+import type { Post } from '../types'
 
-interface Post {
-    id: number
-    title: string
-    body: string
-}
 function PostList() {
 
     async function fetchPosts() {
@@ -21,16 +17,20 @@ function PostList() {
     })
 
     return (
-        <div>
-            {isLoading && <div>Loading...</div>}
-            {isError && <div>Error: something went wrong</div>}
-            {posts && posts.map((post: Post) => (
-                <div key={post.id}>
-                    <h2>{post.title}</h2>
-                    <p>{post.body}</p>
-                </div>
-            ))}
-        </div>
+        <>
+            {isLoading && <p className="status">Loading...</p>}
+            {isError && <p className="status error">Error: something went wrong</p>}
+            {posts && (
+                <ul className="posts">
+                    {posts.map((post: Post) => (
+                        <li className="post" key={post.id}>
+                            <h3>{post.title}</h3>
+                            <p>{post.body}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </>
     )
 }
 
@@ -41,14 +41,19 @@ function CachingExample() {
         queryClient.invalidateQueries({ queryKey: ['posts'] })
     }
     return (
-        <div>
-            <h2>
-                <p>Toggle this component off and on again to see the cached data  </p>
-                <button type="button" onClick={invalidatePosts}>Invalidate Posts</button>
-                <button type="button" onClick={() => setShowPosts(!showPosts)}>Toggle</button>
-            </h2>
+        <section className="panel">
+            <div className="panel-header">
+                <div>
+                    <h2>Caching Example</h2>
+                    <p className="hint">Toggle this component off and on again to see the cached data</p>
+                </div>
+                <div className="actions">
+                    <button type="button" onClick={() => setShowPosts(!showPosts)}>Toggle</button>
+                    <button type="button" className="secondary" onClick={invalidatePosts}>Invalidate Posts</button>
+                </div>
+            </div>
             {showPosts && <PostList />}
-        </div>
+        </section>
     )
 }
 
