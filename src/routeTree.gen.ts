@@ -9,131 +9,280 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as PostsRouteRouteImport } from './routes/posts/route'
-import { Route as PostsIndexRouteImport } from './routes/posts/index'
-import { Route as PostsPostIdRouteImport } from './routes/posts/$postId'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as authenticationLoginRouteImport } from './routes/(authentication)/login'
+import { Route as authenticationRegisterRouteImport } from './routes/(authentication)/register'
+import { Route as AuthIndexRouteImport } from './routes/_auth/index'
+import { Route as AuthAccountRouteImport } from './routes/_auth/_account'
+import { Route as AuthAboutRouteImport } from './routes/_auth/about'
+import { Route as AuthPostsRouteRouteImport } from './routes/_auth/posts/route'
+import { Route as AuthAccountProfileRouteImport } from './routes/_auth/_account/profile'
+import { Route as AuthAccountSettingsRouteImport } from './routes/_auth/_account/settings'
+import { Route as AuthPostsIndexRouteImport } from './routes/_auth/posts/index'
+import { Route as AuthPostsPostIdRouteImport } from './routes/_auth/posts/$postId'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
+const authenticationLoginRoute = authenticationLoginRouteImport.update({
+  id: '/(authentication)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authenticationRegisterRoute = authenticationRegisterRouteImport.update({
+  id: '/(authentication)/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAccountRoute = AuthAccountRouteImport.update({
+  id: '/_account',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAboutRoute = AuthAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthRoute,
 } as any)
-const PostsRouteRoute = PostsRouteRouteImport.update({
+const AuthPostsRouteRoute = AuthPostsRouteRouteImport.update({
   id: '/posts',
   path: '/posts',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthRoute,
 } as any)
-const PostsIndexRoute = PostsIndexRouteImport.update({
+const AuthAccountProfileRoute = AuthAccountProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthAccountRoute,
+} as any)
+const AuthAccountSettingsRoute = AuthAccountSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthAccountRoute,
+} as any)
+const AuthPostsIndexRoute = AuthPostsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PostsRouteRoute,
+  getParentRoute: () => AuthPostsRouteRoute,
 } as any)
-const PostsPostIdRoute = PostsPostIdRouteImport.update({
+const AuthPostsPostIdRoute = AuthPostsPostIdRouteImport.update({
   id: '/$postId',
   path: '/$postId',
-  getParentRoute: () => PostsRouteRoute,
+  getParentRoute: () => AuthPostsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
-  '/about': typeof AboutRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/posts/': typeof PostsIndexRoute
+  '/': typeof AuthIndexRoute
+  '/posts': typeof AuthPostsRouteRouteWithChildren
+  '/login': typeof authenticationLoginRoute
+  '/register': typeof authenticationRegisterRoute
+  '/about': typeof AuthAboutRoute
+  '/profile': typeof AuthAccountProfileRoute
+  '/settings': typeof AuthAccountSettingsRoute
+  '/posts/$postId': typeof AuthPostsPostIdRoute
+  '/posts/': typeof AuthPostsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/posts': typeof PostsIndexRoute
+  '/login': typeof authenticationLoginRoute
+  '/register': typeof authenticationRegisterRoute
+  '/': typeof AuthIndexRoute
+  '/about': typeof AuthAboutRoute
+  '/profile': typeof AuthAccountProfileRoute
+  '/settings': typeof AuthAccountSettingsRoute
+  '/posts/$postId': typeof AuthPostsPostIdRoute
+  '/posts': typeof AuthPostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
-  '/about': typeof AboutRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/posts/': typeof PostsIndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_auth/posts': typeof AuthPostsRouteRouteWithChildren
+  '/(authentication)/login': typeof authenticationLoginRoute
+  '/(authentication)/register': typeof authenticationRegisterRoute
+  '/_auth/_account': typeof AuthAccountRouteWithChildren
+  '/_auth/about': typeof AuthAboutRoute
+  '/_auth/': typeof AuthIndexRoute
+  '/_auth/_account/profile': typeof AuthAccountProfileRoute
+  '/_auth/_account/settings': typeof AuthAccountSettingsRoute
+  '/_auth/posts/$postId': typeof AuthPostsPostIdRoute
+  '/_auth/posts/': typeof AuthPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts' | '/about' | '/posts/$postId' | '/posts/'
+  fullPaths:
+    | '/'
+    | '/posts'
+    | '/login'
+    | '/register'
+    | '/about'
+    | '/profile'
+    | '/settings'
+    | '/posts/$postId'
+    | '/posts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/posts/$postId' | '/posts'
-  id: '__root__' | '/' | '/posts' | '/about' | '/posts/$postId' | '/posts/'
+  to:
+    | '/login'
+    | '/register'
+    | '/'
+    | '/about'
+    | '/profile'
+    | '/settings'
+    | '/posts/$postId'
+    | '/posts'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/_auth/posts'
+    | '/(authentication)/login'
+    | '/(authentication)/register'
+    | '/_auth/_account'
+    | '/_auth/about'
+    | '/_auth/'
+    | '/_auth/_account/profile'
+    | '/_auth/_account/settings'
+    | '/_auth/posts/$postId'
+    | '/_auth/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  PostsRouteRoute: typeof PostsRouteRouteWithChildren
-  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  authenticationLoginRoute: typeof authenticationLoginRoute
+  authenticationRegisterRoute: typeof authenticationRegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authentication)/login': {
+      id: '/(authentication)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authenticationLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authentication)/register': {
+      id: '/(authentication)/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authenticationRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/': {
+      id: '/_auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
-    '/about': {
-      id: '/about'
+    '/_auth/_account': {
+      id: '/_auth/_account'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthAccountRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/about': {
+      id: '/_auth/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthAboutRouteImport
+      parentRoute: typeof AuthRoute
     }
-    '/posts': {
-      id: '/posts'
+    '/_auth/posts': {
+      id: '/_auth/posts'
       path: '/posts'
       fullPath: '/posts'
-      preLoaderRoute: typeof PostsRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthPostsRouteRouteImport
+      parentRoute: typeof AuthRoute
     }
-    '/posts/': {
-      id: '/posts/'
+    '/_auth/_account/profile': {
+      id: '/_auth/_account/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthAccountProfileRouteImport
+      parentRoute: typeof AuthAccountRoute
+    }
+    '/_auth/_account/settings': {
+      id: '/_auth/_account/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthAccountSettingsRouteImport
+      parentRoute: typeof AuthAccountRoute
+    }
+    '/_auth/posts/': {
+      id: '/_auth/posts/'
       path: '/'
       fullPath: '/posts/'
-      preLoaderRoute: typeof PostsIndexRouteImport
-      parentRoute: typeof PostsRouteRoute
+      preLoaderRoute: typeof AuthPostsIndexRouteImport
+      parentRoute: typeof AuthPostsRouteRoute
     }
-    '/posts/$postId': {
-      id: '/posts/$postId'
+    '/_auth/posts/$postId': {
+      id: '/_auth/posts/$postId'
       path: '/$postId'
       fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdRouteImport
-      parentRoute: typeof PostsRouteRoute
+      preLoaderRoute: typeof AuthPostsPostIdRouteImport
+      parentRoute: typeof AuthPostsRouteRoute
     }
   }
 }
 
-interface PostsRouteRouteChildren {
-  PostsPostIdRoute: typeof PostsPostIdRoute
-  PostsIndexRoute: typeof PostsIndexRoute
+interface AuthPostsRouteRouteChildren {
+  AuthPostsPostIdRoute: typeof AuthPostsPostIdRoute
+  AuthPostsIndexRoute: typeof AuthPostsIndexRoute
 }
 
-const PostsRouteRouteChildren: PostsRouteRouteChildren = {
-  PostsPostIdRoute: PostsPostIdRoute,
-  PostsIndexRoute: PostsIndexRoute,
+const AuthPostsRouteRouteChildren: AuthPostsRouteRouteChildren = {
+  AuthPostsPostIdRoute: AuthPostsPostIdRoute,
+  AuthPostsIndexRoute: AuthPostsIndexRoute,
 }
 
-const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
-  PostsRouteRouteChildren,
+const AuthPostsRouteRouteWithChildren = AuthPostsRouteRoute._addFileChildren(
+  AuthPostsRouteRouteChildren,
 )
 
+interface AuthAccountRouteChildren {
+  AuthAccountProfileRoute: typeof AuthAccountProfileRoute
+  AuthAccountSettingsRoute: typeof AuthAccountSettingsRoute
+}
+
+const AuthAccountRouteChildren: AuthAccountRouteChildren = {
+  AuthAccountProfileRoute: AuthAccountProfileRoute,
+  AuthAccountSettingsRoute: AuthAccountSettingsRoute,
+}
+
+const AuthAccountRouteWithChildren = AuthAccountRoute._addFileChildren(
+  AuthAccountRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthPostsRouteRoute: typeof AuthPostsRouteRouteWithChildren
+  AuthAccountRoute: typeof AuthAccountRouteWithChildren
+  AuthAboutRoute: typeof AuthAboutRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthPostsRouteRoute: AuthPostsRouteRouteWithChildren,
+  AuthAccountRoute: AuthAccountRouteWithChildren,
+  AuthAboutRoute: AuthAboutRoute,
+  AuthIndexRoute: AuthIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  PostsRouteRoute: PostsRouteRouteWithChildren,
-  AboutRoute: AboutRoute,
+  AuthRoute: AuthRouteWithChildren,
+  authenticationLoginRoute: authenticationLoginRoute,
+  authenticationRegisterRoute: authenticationRegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import type { Post } from '../../types'
+import type { Post } from '../../../types'
 
 const getPosts = async () => {
   const response = await axios.get<Post[]>(
@@ -10,7 +10,7 @@ const getPosts = async () => {
   return response.data
 }
 
-export const Route = createFileRoute('/posts/')({
+export const Route = createFileRoute('/_auth/posts/')({
   component: RouteComponent,
 })
 

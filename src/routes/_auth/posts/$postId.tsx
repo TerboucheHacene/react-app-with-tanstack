@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import type { Post } from '../../types'
+import type { Post } from '../../../types'
 
-export const Route = createFileRoute('/posts/$postId')({
+export const Route = createFileRoute('/_auth/posts/$postId')({
   component: RouteComponent,
 })
 

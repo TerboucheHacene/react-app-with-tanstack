@@ -303,3 +303,57 @@ button.secondary:hover:not(:disabled) {
     align-items: flex-start;
   }
 }
+
+/* Account layout */
+
+.account-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 220px;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+.account-panel {
+  align-self: start;
+  position: sticky;
+  top: 88px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.account-panel-title {
+  margin: 0 0 12px;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.account-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.account-content {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .account-panel {
+    position: static;
+  }
+
+  .account-panel-right {
+    display: none;
+  }
+}
